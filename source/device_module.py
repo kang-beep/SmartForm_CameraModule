@@ -16,6 +16,11 @@ class motor():
     
     def __init__(self, IN1, IN2, IN3, IN4) -> None:
         
+        self.IN1 = IN1
+        self.IN2 = IN2
+        self.IN3 = IN3
+        self.IN4 = IN4
+
         GPIO.setup(IN1, GPIO.OUT)
         GPIO.setup(IN2, GPIO.OUT)
         GPIO.setup(IN3, GPIO.OUT)
@@ -36,6 +41,8 @@ class motor():
             [0, 0, 0, 1],
             [1, 0, 0, 1]
         ]
+        # 역방향 시퀸스
+        self.reversed_sequence = self.step_sequence[::-1]
 
         # 스텝 카운트
         self.step_count = len(self.step_sequence)
@@ -50,7 +57,15 @@ class motor():
             GPIO.output(self.IN3, self.step_sequence[step][2])
             GPIO.output(self.IN4, self.step_sequence[step][3])
             time.sleep(self.delay)
+    
+    def step_motor_rotate_reverse(self):
         
+        for step in range(self.step_count):
+            GPIO.output(self.IN1, self.reversed_sequence[step][0])
+            GPIO.output(self.IN2, self.reversed_sequence[step][1])
+            GPIO.output(self.IN3, self.reversed_sequence[step][2])
+            GPIO.output(self.IN4, self.reversed_sequence[step][3])
+            time.sleep(self.delay)
         
 class CameraControl:
     
