@@ -34,9 +34,20 @@ class motor():
             [0, 0, 0, 1],
             [1, 0, 0, 1]
         ]
+
+        # 스텝 카운트
         self.step_count = len(self.step_sequence)
+        
+
     # 스텝모터 회전 함수
-    def step_motor_rotate():
+    def step_motor_rotate(self):
+        
+        for step in range(self.step_count):
+            GPIO.output(self.IN1, self.step_sequence[step][0])
+            GPIO.output(self.IN2, self.step_sequence[step][1])
+            GPIO.output(self.IN3, self.step_sequence[step][2])
+            GPIO.output(self.IN4, self.step_sequence[step][3])
+            time.sleep(self.delay)
         
         
 class CameraControl:
