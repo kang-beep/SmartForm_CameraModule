@@ -13,15 +13,13 @@ def run():
 
     try :
         while True:
-            if GPIO.input(_collusion.start_crash_pin) == GPIO.HIGH :
+            if GPIO.input(_collusion.end_pin) == GPIO.HIGH :
                 # 모터 정방향 회전
                 print("")
                 
             else :
                 # 모터 역방향 회전
                 print("")    
-
-                
 
     except KeyboardInterrupt :
         GPIO.cleanup(0)

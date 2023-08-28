@@ -5,6 +5,8 @@ import time
 class collusion():
 
     def __init__(self, START_PIN, END_PIN) -> None:
+        self.start_pin = START_PIN
+        self.end_pin = END_PIN
         
         GPIO.setup(START_PIN, GPIO.IN)
         GPIO.setup(END_PIN, GPIO.IN)
