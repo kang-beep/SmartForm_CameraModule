@@ -48,5 +48,4 @@ def camera():
     _camera.camActivate()
 
 
-motor_test()
-
+collusion()
