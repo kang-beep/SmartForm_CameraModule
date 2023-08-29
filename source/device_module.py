@@ -28,7 +28,7 @@ class motor():
 
 
         self.steps_per_rotation = 512  # 1회전에 필요한 스텝 수
-        self.delay = 0.02   # 회전 딜레이 (딜레이없이 움직이면 모터가 불안정해짐)
+        self.delay = 0.001   # 회전 딜레이 (딜레이없이 움직이면 모터가 불안정해짐)
 
         # 시퀸스 정의
         self.step_sequence = [
