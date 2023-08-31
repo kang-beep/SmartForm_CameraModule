@@ -82,7 +82,7 @@ class CameraControl:
         self.camera.capture(self.image_path)
 
         
-    def image_to_byte(self, image_path):
-        with open(image_path, 'rb') as image_file:
+    def image_to_byte(self):
+        with open(self.image_path, 'rb') as image_file:
             return image_file.read()
 

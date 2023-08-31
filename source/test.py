@@ -1,5 +1,8 @@
-import device_module
+
 import RPi.GPIO as GPIO
+import threading
+import mqtt_handler
+import device_module
 import time
 # 1. 모터 정방향, 역방향 테스트
 # 2. 충돌 센서 테스트
@@ -13,13 +16,9 @@ def motor_test():
 
     try :
         while True: 
-            for i in range (1000):
-                _motor.step_motor_rotate()
+            # _motor.step_motor_rotate()
 
-            time.sleep(2)
-
-            for i in range (5):
-                _motor.step_motor_rotate_reverse()
+            _motor.step_motor_rotate_reverse()
 
     except KeyboardInterrupt :
         GPIO.cleanup(0)
@@ -43,9 +42,33 @@ def collusion():
 
 def camera():
 
-    _camera = device_module.CameraControl
+    _camera = device_module.CameraControl("/home/sks/Desktop/camera_module/image")
     
-    _camera.camActivate()
+    bytes_image = _camera.image_to_byte(_camera.IMAGE_PATH)
+    print(bytes_image)
+
+def image_to_byte(image_path):
+        with open(image_path, 'rb') as image_file:
+            return image_file.read()
+
+def byte_to_image(byte_data, output_path):
+    with open(output_path, 'wb') as output_file:
+        output_file.write(byte_data)
+
+def on_message(self, client, userdata, msg):
+    byte_to_image(msg.payload, "/home/sks/Desktop/camera_module/test_image/output_image.png")
 
 
-collusion()
+_mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME = "broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
+_mqtt_recv.on_message = on_message
+
+#_mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME="broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
+#_mqtt_recv.on_message = on_message
+# output_image_path = "/home/sks/Desktop/camera_module/test_image/output_image.png"
+# byte_to_image(byte_data, output_image_path)
+
+
+
+
+
+
