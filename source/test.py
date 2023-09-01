@@ -55,12 +55,15 @@ def byte_to_image(byte_data, output_path):
     with open(output_path, 'wb') as output_file:
         output_file.write(byte_data)
 
-def on_message(self, client, userdata, msg):
-    byte_to_image(msg.payload, "/home/sks/Desktop/camera_module/test_image/output_image.png")
+def on_message(client, userdata, msg):
+    print(f"Received message '{msg.payload}' on topic '{msg.topic}'")
+    return byte_to_image(msg.payload, "/home/sks/Desktop/camera_module/test_image/output_image.png")
 
 
 _mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME = "broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
-_mqtt_recv.on_message = on_message
+_mqtt_recv.client.on_message = on_message
+
+_mqtt_recv.signal_recv()
 
 #_mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME="broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
 #_mqtt_recv.on_message = on_message

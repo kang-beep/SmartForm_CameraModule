@@ -33,7 +33,7 @@ class mqtt_recv :
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
-        self.client.connect(self.BROKER_NAME, 1883, 60)
+        
 
     def on_connect(self, client, userdata, flags, rc):
         print("Connected with result code "+str(rc))
@@ -43,4 +43,5 @@ class mqtt_recv :
         print(f"Received message '{msg.payload}' on topic '{msg.topic}'")
 
     def signal_recv(self):
+        self.client.connect(self.BROKER_NAME, 1883, 60)
         self.client.loop_forever()

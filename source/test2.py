@@ -7,7 +7,11 @@ def image_to_byte(image_path):
 _mqtt_sender = mqtt_handler.mqtt_send(BROKER_NAME = "broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
 
 byte_data = image_to_byte("/home/sks/Desktop/camera_module/image/raspi_module_pin_map.png")
+
+
+print(_mqtt_sender.BROKER_NAME)
 print(_mqtt_sender.TOPIC)
+
 for i in range(5) :
     print(f"발행 {i}")
 
