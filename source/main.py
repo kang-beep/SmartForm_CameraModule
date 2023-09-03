@@ -17,27 +17,28 @@ def run():
 
     # recv 토픽 바꿀것
     _mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME = "broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
-    try :
-        while True:
-            if GPIO.input(_collusion.end_pin) == GPIO.HIGH :
-                # 모터 정방향 회전
-                _motor.step_motor_rotate()
-                
-            else :
-                # 모터 역방향 회전
-                _motor.step_motor_rotate_reverse()
-                
-                # 10초마다 사진 촬영 코드 작성
-                _camera.camActivate()
-                
-                
-                # 촬영된 이미지 바이트 코드로 변환후 전송
-                byte_code = _camera.image_to_byte()
 
-                _mqtt_recv.signal_recv
-                _mqtt_send.send_image(byte_code)
-                
-                
+    direction_status = True
+    try :
+
+            # 모터 정방향 회전
+            while direction_status == True : 
+                _motor.step_motor_rotate()
+                if GPIO.input(_collusion.end_pin) == GPIO.LOW :
+                    direction_status = False
+                    break
+
+            # 모터 역방향 회전
+            while direction_status == False:     
+                _motor.step_motor_rotate_reverse()
+                if GPIO.input(_collusion.start_pin) == GPIO.LOW :
+                    direction_status = True
+                    break
+            
+            # 정위치 제자리
+            for i in range(50):
+                _motor.step_motor_rotate_reverse()
+
     except KeyboardInterrupt :
         GPIO.cleanup(0)
 

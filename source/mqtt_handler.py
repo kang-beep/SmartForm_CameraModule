@@ -3,7 +3,6 @@ import paho.mqtt.client as mqtt
 class mqtt_send :
     
     def __init__(self, BROKER_NAME, TOPIC) -> None :
-
         self.BROKER_NAME = BROKER_NAME
         self.TOPIC = TOPIC
         self.client = mqtt.Client()
@@ -19,8 +18,7 @@ class mqtt_send :
     # def on_message(self, client, userdata, msg):
         # print(f"Received message '{msg.payload}' on topic '{msg.topic}'")
 
-    def send_image(self, byte_code):
-        
+    def send_on_message(self, byte_code):
         self.client.loop_start()
         self.client.publish(self.TOPIC, byte_code)
         self.client.loop_stop()

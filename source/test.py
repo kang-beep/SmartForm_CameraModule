@@ -1,4 +1,3 @@
-
 import RPi.GPIO as GPIO
 import threading
 import mqtt_handler
@@ -59,11 +58,25 @@ def on_message(client, userdata, msg):
     print(f"Received message '{msg.payload}' on topic '{msg.topic}'")
     return byte_to_image(msg.payload, "/home/sks/Desktop/camera_module/test_image/output_image.png")
 
+def timer_function():
+    # 타이머를 실행할 동작
+    print("10 seconds have passed!")
 
-_mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME = "broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
-_mqtt_recv.client.on_message = on_message
 
-_mqtt_recv.signal_recv()
+start_time = time.time()
+while True:
+    if (time.time() - start_time) > 3 :
+        start_time = time.time()
+        print("3 seconds have passed!")
+        time.sleep(2)
+    
+    time.sleep(1)
+    print("nothing")
+
+#_mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME = "broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
+#_mqtt_recv.client.on_message = on_message
+
+#_mqtt_recv.signal_recv()
 
 #_mqtt_recv = mqtt_handler.mqtt_recv(BROKER_NAME="broker.hivemq.com", TOPIC="f8oCa2e7FJc1")
 #_mqtt_recv.on_message = on_message

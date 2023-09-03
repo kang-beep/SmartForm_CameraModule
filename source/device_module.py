@@ -79,10 +79,10 @@ class CameraControl:
 
     def camActivate(self) :
         # 카메라 캡처
-        self.camera.capture(self.image_path)
+        self.camera.capture(self.IMAGE_PATH)
 
         
     def image_to_byte(self):
-        with open(self.image_path, 'rb') as image_file:
+        with open(self.IMAGE_PATH, 'rb') as image_file:
             return image_file.read()
 
