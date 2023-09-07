@@ -1,4 +1,4 @@
-from picamera import PiCamera as cam
+from picamera import PiCamera
 import RPi.GPIO as GPIO
 import time
 
@@ -71,18 +71,29 @@ class CameraControl:
     
     def __init__(self, IMAGE_PATH):
         # 카메라 초기화
-        self.camera = cam()
+        self.camera = PiCamera()
         self.IMAGE_PATH = IMAGE_PATH
 
+    def camActivate(self) :
+
+        # 카메라 인스턴스 생성
+        # self.camera = PiCamera()
         # 카메라 해상도 설정(옵션)
         self.camera.resolution = (640, 640)
-
-    def camActivate(self) :
         # 카메라 캡처
+        # 카메라의 조도가 설정되는 시간을 기다려주기 위해 사진을 찍기 전 최소 2초 정도 여유를 두는 것이 좋다.
+        self.camera.start_preview()
+        time.sleep(2)
         self.camera.capture(self.IMAGE_PATH)
-
+        self.camera.stop_preview()
         
-    def image_to_byte(self):
-        with open(self.IMAGE_PATH, 'rb') as image_file:
-            return image_file.read()
+    def image_to_byte(self, image_path=None) -> bytes:
+        if image_path == None :
+            image_path = self.IMAGE_PATH
 
+        with open(image_path, 'rb') as image_file:
+            return image_file.read()
+    
+    #def byte_to_image(byte_data, output_path) -> None:
+    #   with open(output_path, 'wb') as output_file:
+    #        output_file.write(byte_data)

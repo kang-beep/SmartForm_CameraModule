@@ -18,11 +18,12 @@ class mqtt_send :
     # def on_message(self, client, userdata, msg):
         # print(f"Received message '{msg.payload}' on topic '{msg.topic}'")
 
-    def send_on_message(self, byte_code):
+    def send_message(self, message):
+        
         self.client.loop_start()
-        self.client.publish(self.TOPIC, byte_code)
+        self.client.publish(self.TOPIC, message)
         self.client.loop_stop()
-
+        
 class mqtt_recv : 
 
     def __init__(self, BROKER_NAME, TOPIC) -> None:
@@ -40,6 +41,6 @@ class mqtt_recv :
     def on_message(self, client, userdata, msg):
         print(f"Received message '{msg.payload}' on topic '{msg.topic}'")
 
-    def signal_recv_start(self):
+    def signal_recv(self):
         self.client.connect(self.BROKER_NAME, 1883, 60)
         self.client.loop_forever()
